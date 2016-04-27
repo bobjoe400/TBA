@@ -232,7 +232,6 @@ public class Player implements Serializable{
 			ostream.writeObject(this);
 			ostream.close();
 			System.out.println("Game saved"); 
-			
 		}catch(FileNotFoundException e){
 			e.printStackTrace();
 		}catch(IOException e){
