@@ -1,0 +1,39 @@
+#Classifier (0 = sword, 1 = armor)
+#Name
+#Type
+#Attack
+#Defense
+#Weight
+#Room
+
+0
+Iron Sword
+Sword
+5
+2
+1.3
+Dungeon
+
+1
+Leather Jacket
+Leather Armor
+0
+5
+2.0
+Prison Cell
+
+0
+Iron Axe
+Axe
+2
+1
+1.5
+Hallway
+
+1
+Iron Armor
+Iron Armor
+6
+0
+4.5
+Hallway
