@@ -58,7 +58,7 @@ public class Main {
 		 * entity.join();
 		 */
 		Main main = new Main();
-		main.Load();
+		main.load();
 		if (main.charCreate()) {
 			boolean go = false;
 			while (!go) {
@@ -68,7 +68,7 @@ public class Main {
 		main.wakeUp("You wake up to see a dark room.", false);
 	}
 	
-	public void Load() throws InterruptedException{
+	public void load() throws InterruptedException{
 		Thread load = new Thread(new LoadThread());
 		load.start();
 		load.join();
@@ -196,8 +196,8 @@ public class Main {
 			hallway("You enter a hallway", false);
 			break;
 		case 3:
-			System.out.println("Lmao k");
-			System.exit(1);	
+			System.out.println(user.getCurRoom().getDescript());
+			hallway("You enter a hallway", false);
 			break;
 		}
 	}
@@ -208,7 +208,7 @@ public class Main {
 		switch (choice(new String[] { "Check your inventory.", "Look around." })) {
 		case 1:
 			user.displayInventory();
-			hallway("", false);
+			hallway("You're still in the hallway", true);
 			break;
 		case 2:
 			System.out.println(user.getCurRoom().getDescript());
