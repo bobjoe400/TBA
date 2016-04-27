@@ -1,9 +1,11 @@
 package main;
 
+import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 
 import interfaces.Item;
@@ -224,15 +226,22 @@ public class Player implements Serializable{
 	
 	public void saveState(){
 		try{
-			Path file;
-			if((file = Paths.get("Resources/Saves.tbes")) == null){
-				throw new FileNotFoundException();
-			}else{
-				file = Paths.get("Resources/Saves.tbes");
-			}
+			File file = new File("Resourcees/Save.tbes");
+			FileOutputStream fstream = new FileOutputStream(file);
+			ObjectOutputStream ostream = new ObjectOutputStream(fstream);
+			ostream.writeObject(this);
+			ostream.close();
+			System.out.println("Game saved");
 		}catch(FileNotFoundException e){
-			
+			e.printStackTrace();
+		}catch(IOException e){
+			System.out.println();
+			e.printStackTrace();
 		}
+	}
+	
+	public void loadState(){
+		
 	}
 
 	/*public void saveState() {

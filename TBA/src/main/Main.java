@@ -36,17 +36,37 @@ public class Main {
 
 	private class LoadThread implements Runnable {
 		public void run() {
-			synchronized(_lock){roomInit();}
-			synchronized(_lock){areaInit();}
-			synchronized(_lock){itemInit();}
-			synchronized(_lock){entityInit();}
-			synchronized(_lock){entityPlace();}
-			synchronized(_lock){itemPlace();}
+			synchronized (_lock) {
+				roomInit();
+			}
+			synchronized (_lock) {
+				areaInit();
+			}
+			synchronized (_lock) {
+				itemInit();
+			}
+			synchronized (_lock) {
+				entityInit();
+			}
+			synchronized (_lock) {
+				entityPlace();
+			}
+			synchronized (_lock) {
+				itemPlace();
+			}
 			threadMessage("all loaded");
 		}
 	}
 
 	public static void main(String[] args) throws InterruptedException {
+		boolean newgame = true;
+		if (new File("Resources/Save.tbes").exists()) {
+			System.out.println("A save file was found. Would you like to continue? >");
+			if (in.nextLine().toLowerCase().charAt(0) != 'n') {
+				newgame = false;
+			}
+		}
+
 		System.out.print("Would you like to go on a magical adventure? > ");
 		if (in.nextLine().equalsIgnoreCase("no"))
 			System.exit(1);
@@ -59,7 +79,7 @@ public class Main {
 		 */
 		Main main = new Main();
 		main.load();
-		if (main.charCreate()) {
+		if (main.charCreate(newgame)) {
 			boolean go = false;
 			while (!go) {
 				go = main.attribSet();
@@ -67,15 +87,22 @@ public class Main {
 		}
 		main.wakeUp("You wake up to see a dark room.", false);
 	}
-	
-	public void load() throws InterruptedException{
+
+	public void load() throws InterruptedException {
 		Thread load = new Thread(new LoadThread());
 		load.start();
-		load.join();
+		while (load.isAlive()) {
+			System.out.println("Loading...");
+		}
+		// load.join();
 	}
 
-	public boolean charCreate() {
+	public boolean charCreate(boolean newgame) {
 		user = new Player();
+		if(newgame){
+			user.loadState();
+			return false;
+		}
 		System.out.print("What do you want your name to be? > ");
 		String s = in.nextLine();
 		if (s.equals("Teh Overlord Zenu")) {
@@ -224,8 +251,14 @@ public class Main {
 		String s;
 		do {
 			System.out.println("What would you like to do?");
+			System.out.println("You can type -1 at any time to quit.");
 			s = in.nextLine();
 		} while (!isInteger(s, choices.length));
+		if (Integer.parseInt(s) == -1) {
+			System.out.println("Saving game.");
+			user.saveState();
+			System.exit(1);
+		}
 		return Integer.parseInt(s);
 	}
 
@@ -296,8 +329,8 @@ public class Main {
 		System.out.println();
 		return null;
 	}
-	
-	public static Room checkRoomStatic(String s){
+
+	public static Room checkRoomStatic(String s) {
 		for (Room rm : roomList) {
 			if (s.equalsIgnoreCase(rm.getName())) {
 				return rm;
@@ -308,7 +341,7 @@ public class Main {
 	}
 
 	public synchronized Item checkItem(String s) {
-		//while(itemList == null){}
+		// while(itemList == null){}
 		for (Item it : itemList) {
 			if (s.equalsIgnoreCase(it.getName())) {
 				return it;
@@ -505,7 +538,7 @@ public class Main {
 	}
 
 	public synchronized void entityPlace() {
-		//while(entityList == null){}
+		// while(entityList == null){}
 		for (Entity e : entityList) {
 			if (e != null) {
 				for (int i = 0; i < roomList.size(); i++) {
