@@ -1,9 +1,11 @@
 package objects;
 
-import world.Room;
-import interfaces.Item;
+import java.io.Serializable;
 
-public class Armor implements Item {
+import interfaces.Item;
+import world.Room;
+
+public class Armor implements Item, Serializable{
 
 	public String name;
 	public String type;

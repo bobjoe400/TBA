@@ -54,16 +54,18 @@ public class Main {
 			synchronized (_lock) {
 				itemPlace();
 			}
-			threadMessage("all loaded");
+			//threadMessage("all loaded");
 		}
 	}
 
 	public static void main(String[] args) throws InterruptedException {
 		boolean newgame = true;
 		if (new File("Resources/Save.tbes").exists()) {
-			System.out.println("A save file was found. Would you like to continue? >");
+			System.out.print("A save file was found. Would you like to continue? >");
 			if (in.nextLine().toLowerCase().charAt(0) != 'n') {
 				newgame = false;
+			}else{
+				new File("Resources/Save.tbes").delete();
 			}
 		}
 
@@ -95,12 +97,13 @@ public class Main {
 			System.out.println("Loading...");
 		}
 		// load.join();
+		System.out.println("Loading Complete!");
 	}
 
 	public boolean charCreate(boolean newgame) {
 		user = new Player();
-		if(newgame){
-			user.loadState();
+		if (!newgame) {
+			user = user.loadState();
 			return false;
 		}
 		System.out.print("What do you want your name to be? > ");
@@ -206,7 +209,7 @@ public class Main {
 	}
 
 	public void wakeUp(String s, boolean secTime) {
-		System.out.println(s);
+		//System.out.println(user);
 		user.setCurRoom(checkRoom("Prison Cell"), false);
 		user.setPrevRoom(checkRoom("Prison Cell"));
 		switch (choice(new String[] { "Stay here and do nothing.", "Look around the room, there might be something.",
@@ -309,6 +312,9 @@ public class Main {
 			return false;
 		}
 		int x = Integer.parseInt(s);
+		System.out.println(x);
+		if (x == -1)
+			return true;
 		if (range == -1)
 			return true;
 		if (x > range || x < 1) {

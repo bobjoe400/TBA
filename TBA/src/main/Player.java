@@ -1,9 +1,11 @@
 package main;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -226,7 +228,9 @@ public class Player implements Serializable{
 	
 	public void saveState(){
 		try{
-			File file = new File("Resourcees/Save.tbes");
+			System.out.println(getClass());
+			File file = new File("Resources/Save.tbes");
+			file.createNewFile();
 			FileOutputStream fstream = new FileOutputStream(file);
 			ObjectOutputStream ostream = new ObjectOutputStream(fstream);
 			ostream.writeObject(this);
@@ -240,8 +244,18 @@ public class Player implements Serializable{
 		}
 	}
 	
-	public void loadState(){
-		
+	public Player loadState(){
+		Player oPlayer;
+		try{
+			FileInputStream fstream = new FileInputStream(new File("Resources/Save.tbes"));
+			ObjectInputStream ostream = new ObjectInputStream(fstream);
+			oPlayer = (Player) ostream.readObject();
+			ostream.close();
+			return oPlayer;
+		}catch(Exception e){
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	/*public void saveState() {

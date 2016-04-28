@@ -1,9 +1,12 @@
 package objects;
 
 import world.Room;
+
+import java.io.Serializable;
+
 import interfaces.Item;
 
-public class Weapon implements Item {
+public class Weapon implements Item, Serializable {
 
 	private String name;
 	private String type;

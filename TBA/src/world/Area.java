@@ -1,8 +1,9 @@
 package world;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class Area {
+public class Area implements Serializable {
 	private String name;
 	private String description;
 

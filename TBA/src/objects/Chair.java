@@ -1,9 +1,12 @@
 package objects;
 
 import world.Room;
+
+import java.io.Serializable;
+
 import interfaces.Entity;
 
-public class Chair implements Entity {
+public class Chair implements Entity, Serializable{
 	private String name;
 	private String type;
 	private Room room;

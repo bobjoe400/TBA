@@ -1,11 +1,12 @@
 package world;
 
+import java.io.Serializable;
+import java.util.ArrayList;
+
 import interfaces.Entity;
 import interfaces.Item;
 
-import java.util.ArrayList;
-
-public class Room {
+public class Room implements Serializable{
 	private String name;
 	private String descript;
 

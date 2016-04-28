@@ -3,11 +3,12 @@ package objects;
 import interfaces.Entity;
 import interfaces.Item;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import world.Room;
 
-public class Chest implements Entity {
+public class Chest implements Entity, Serializable {
 	private String name;
 	private String type; //Material
 	private Room room;
