@@ -1,0 +1,1 @@
+For map creation use 2d array with diff chars represeting different numberas
