@@ -104,6 +104,7 @@ public class Main {
 			System.out.print("Loading");
 			for(int i = 0; i < percent/4;i++){
 				System.out.print(".");
+				//wait(100);
 			}
 			System.out.println();
 		}
