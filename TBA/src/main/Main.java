@@ -20,6 +20,7 @@ public class Main {
 	private static Scanner in = new Scanner(System.in);
 	private static Random randGen = new Random();
 	private static Object _lock = new Object();
+	private double percent = 0;
 
 	public static String slash = System.getProperty("file.separator");
 	public static List<Item> itemList;
@@ -38,21 +39,27 @@ public class Main {
 		public void run() {
 			synchronized (_lock) {
 				roomInit();
+				percent += 17;
 			}
 			synchronized (_lock) {
 				areaInit();
+				percent += 17;
 			}
 			synchronized (_lock) {
 				itemInit();
+				percent += 17;
 			}
 			synchronized (_lock) {
 				entityInit();
+				percent += 17;
 			}
 			synchronized (_lock) {
 				entityPlace();
+				percent += 17;
 			}
 			synchronized (_lock) {
 				itemPlace();
+				percent = 100;
 			}
 			//threadMessage("all loaded");
 		}
@@ -94,7 +101,11 @@ public class Main {
 		Thread load = new Thread(new LoadThread());
 		load.start();
 		while (load.isAlive()) {
-			System.out.println("Loading...");
+			System.out.print("Loading");
+			for(int i = 0; i < percent/4;i++){
+				System.out.print(".");
+			}
+			System.out.println();
 		}
 		// load.join();
 		System.out.println("Loading Complete!");
