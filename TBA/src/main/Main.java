@@ -95,6 +95,7 @@ public class Main {
 			}
 		}
 		main.wakeUp("You wake up to see a dark room.", false);
+		in.close();
 	}
 
 	public void load() throws InterruptedException {
@@ -102,10 +103,7 @@ public class Main {
 		load.start();
 		while (load.isAlive()) {
 			System.out.print("Loading");
-			for(int i = 0; i < percent/4;i++){
-				System.out.print(".");
-				//wait(100);
-			}
+		    System.out.print(".");//wait(100)
 			System.out.println();
 		}
 		// load.join();
