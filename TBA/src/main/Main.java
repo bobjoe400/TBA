@@ -27,6 +27,7 @@ public class Main {
 	public static List<Entity> entityList;
 	public static List<Room> roomList;
 	public static List<Area> areaList;
+	public char[][] map; 
 	public static Set<Character> vowels = new HashSet<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
 	public static Player user;
 
