@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import interfaces.Item;
 import world.Room;
+import util.Location;
 
 public class Player implements Serializable{
 	private String name;
@@ -25,11 +26,12 @@ public class Player implements Serializable{
 	private int def;
 	private Room currentRoom;
 	private Room prevRoom;
+	private Location loc; 
 	public ArrayList<Item> inventory;
 	public ArrayList<Room> discoveredRooms;
 
 	public Player(String name, String race, boolean isMale, int age, int intel,
-			int agil, int att, int def, Room room, Room proom) {
+			int agil, int att, int def, /*Room room, Room proom*/Location loc) {
 		this.name = name;
 		this.race = race;
 		direction = "North";
@@ -39,20 +41,21 @@ public class Player implements Serializable{
 		this.agil = agil;
 		this.att = att;
 		this.def = def;
-		this.currentRoom = room;
-		this.prevRoom = proom;
+		//this.currentRoom = room;
+		//this.prevRoom = proom;
+		this.loc = loc;
 		inventory = new ArrayList<Item>();
 		discoveredRooms = new ArrayList<Room>();
 	}
 
 	public Player(String name, String race, boolean isMale, int age,
-			int[] stats, Room room, Room proom) {
+			int[] stats, /*Room room, Room proom*/Location loc) {
 		this(name, race, isMale, age, stats[0], stats[1], stats[2], stats[3],
-				room, proom);
+				loc/*room, proom*/);
 	}
 
 	public Player() {
-		this(null, null, false, 0, 0, 0, 0, 0, new Room(null,null), new Room(null,null));
+		this(null, null, false, 0, 0, 0, 0, 0, new Location()/*new Room(null,null), new Room(null,null)*/);
 	}
 
 	public void setName(String name) {
@@ -91,7 +94,15 @@ public class Player implements Serializable{
 		this.def = def;
 	}
 
-	public void setCurRoom(Room room, boolean b) {
+	public void setLocation(int x, int y){
+		loc = new Location(x,y);
+	}
+	
+	public void setLocation(Location loc){
+		this.loc = loc;
+	}
+	
+	/*public void setCurRoom(Room room, boolean b) {
 		this.currentRoom = room;
 		discoveredRooms.add(room);
 		if (b) {
@@ -101,11 +112,11 @@ public class Player implements Serializable{
 
 	public void setPrevRoom(Room proom) {
 		this.prevRoom = proom;
-	}
+	}*/
 
-	public void setDirection(String s) {
+	/*public void setDirection(String s) {
 		direction = s;
-	}
+	}*/
 
 	public void resetStats() {
 		intel = 0;
@@ -179,13 +190,13 @@ public class Player implements Serializable{
 		return currentRoom;
 	}
 
-	public Room getPrevRoom() {
+	/*public Room getPrevRoom() {
 		return prevRoom;
 	}
 
 	public String getDirection() {
 		return direction;
-	}
+	}*/
 
 	public boolean hasItem(String item) {
 		if (inventory.contains(item))

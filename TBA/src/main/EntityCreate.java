@@ -17,15 +17,13 @@ public class EntityCreate {
 		return temp;
 	}
 
-	public static Weapon weaponCreate(String name, String type, int attack, int defense,
-			double weight, Room room) {
-		Weapon temp = new Weapon(name, type, attack, defense, weight, room);
+	public static Weapon weaponCreate(String name, String type, int attack, int defense, double weight) {
+		Weapon temp = new Weapon(name, type, attack, defense, weight);
 		return temp;
 	}
 
-	public static Armor armorCreate(String name, String type, int attack, int defense,
-			double weight, Room room) {
-		Armor temp = new Armor(name, type, attack, defense, weight, room);
+	public static Armor armorCreate(String name, String type, int attack, int defense, double weight) {
+		Armor temp = new Armor(name, type, attack, defense, weight);
 		return temp;
 	}
 }

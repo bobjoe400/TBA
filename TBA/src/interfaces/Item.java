@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.util.ArrayList;
+
 import world.Room;
 
 public interface Item {
@@ -14,7 +16,7 @@ public interface Item {
 
 	public void setWeight(double w);
 
-	public void setRoom(Room room);
+	public void addRoomAllowed(Room room);
 
 	public String getName();
 
@@ -26,7 +28,7 @@ public interface Item {
 
 	public double getWeight();
 
-	public Room getRoom();
+	public ArrayList<Room> getRoomsAllowed();
 
 	public String toString();
 }

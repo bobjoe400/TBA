@@ -12,6 +12,7 @@ import java.util.Set;
 import interfaces.Entity;
 import interfaces.Item;
 import objects.Chest;
+import util.Location;
 import world.Area;
 import world.Room;
 
@@ -27,7 +28,7 @@ public class Main {
 	public static List<Entity> entityList;
 	public static List<Room> roomList;
 	public static List<Area> areaList;
-	public char[][] map; 
+	public static Map map;
 	public static Set<Character> vowels = new HashSet<Character>(Arrays.asList('a', 'e', 'i', 'o', 'u'));
 	public static Player user;
 
@@ -42,10 +43,10 @@ public class Main {
 				roomInit();
 				percent += 17;
 			}
-			synchronized (_lock) {
-				areaInit();
-				percent += 17;
-			}
+//			synchronized (_lock) {
+//				areaInit();
+//				percent += 17;
+//			}
 			synchronized (_lock) {
 				itemInit();
 				percent += 17;
@@ -54,14 +55,14 @@ public class Main {
 				entityInit();
 				percent += 17;
 			}
-			synchronized (_lock) {
-				entityPlace();
-				percent += 17;
-			}
-			synchronized (_lock) {
-				itemPlace();
-				percent = 100;
-			}
+//			synchronized (_lock) {
+//				entityPlace();
+//				percent += 17;
+//			}
+//			synchronized (_lock) {
+//				itemPlace();
+//				percent = 100;
+//			}
 			//threadMessage("all loaded");
 		}
 	}
@@ -120,7 +121,7 @@ public class Main {
 		System.out.print("What do you want your name to be? > ");
 		String s = in.nextLine();
 		if (s.equals("Teh Overlord Zenu")) {
-			user = new Player(s, "Diete", true, 69, 100, 100, 100, 100, new Room(), new Room());
+			user = new Player(s, "Diete", true, 69, 100, 100, 100, 100, new Location());
 			System.out.println(skillCheck());
 			return false;
 		}
@@ -130,12 +131,12 @@ public class Main {
 			boolean b = true;
 			if (y == 1)
 				b = false;
-			user = new Player("Yolo", "Swaggot", b, x, randStats(420), new Room(), new Room());
+			user = new Player("Yolo", "Swaggot", b, x, randStats(420), new Location());
 			System.out.println(skillCheck());
 			return false;
 		}
 		if (s.equalsIgnoreCase("cooper")) {
-			user = new Player("Cooper", "Human", true, 18, 2, 2, 3, 3, new Room(), new Room());
+			user = new Player("Cooper", "Human", true, 18, 2, 2, 3, 3, new Location());
 			System.out.println(skillCheck());
 			return false;
 		}
@@ -221,8 +222,8 @@ public class Main {
 
 	public void wakeUp(String s, boolean secTime) {
 		//System.out.println(user);
-		user.setCurRoom(checkRoom("Prison Cell"), false);
-		user.setPrevRoom(checkRoom("Prison Cell"));
+		//user.setCurRoom(checkRoom("Prison Cell"), false);
+		//user.setPrevRoom(checkRoom("Prison Cell"));
 		switch (choice(new String[] { "Stay here and do nothing.", "Look around the room, there might be something.",
 				"Go through the door without looking around." })) {
 		case 1:
@@ -245,7 +246,7 @@ public class Main {
 
 	public void hallway(String s, boolean secTime) {
 		System.out.println(s);
-		user.setCurRoom(checkRoom("Hallway"), true);
+		//user.setCurRoom(checkRoom("Hallway"), true);
 		switch (choice(new String[] { "Check your inventory.", "Look around." })) {
 		case 1:
 			user.displayInventory();
@@ -347,7 +348,7 @@ public class Main {
 		return null;
 	}
 
-	public static Room checkRoomStatic(String s) {
+	public static Room checkRoomStatic(String s){
 		for (Room rm : roomList) {
 			if (s.equalsIgnoreCase(rm.getName())) {
 				return rm;
@@ -396,23 +397,31 @@ public class Main {
 		try {
 			Scanner file = new Scanner(new File(fileName)).useDelimiter("|");
 			Item tomp = null;
+			String[] rooms = null;
 			while (file.hasNextLine()) {
 				if (file.nextLine().startsWith("#")) {
 					continue;
 				}
-				int i = file.nextInt();
+				char i = file.nextLine().charAt(0);
 				switch (i) {
-				case 0:
+				case 'W' :
 					file.nextLine();
 					tomp = EntityCreate.weaponCreate(file.nextLine(), file.nextLine(),
 							Integer.parseInt(file.nextLine()), Integer.parseInt(file.nextLine()),
-							Double.parseDouble(file.nextLine()), checkRoom(file.nextLine()));
+							Double.parseDouble(file.nextLine()));
+					rooms = file.nextLine().split(",");
+					for(String s: rooms){
+						tomp.addRoomAllowed(checkRoom(s));
+					}
 					break;
-				case 1:
+				case 'A' :
 					file.nextLine();
 					tomp = EntityCreate.armorCreate(file.nextLine(), file.nextLine(), Integer.parseInt(file.nextLine()),
-							Integer.parseInt(file.nextLine()), Double.parseDouble(file.nextLine()),
-							checkRoom(file.nextLine()));
+							Integer.parseInt(file.nextLine()), Double.parseDouble(file.nextLine()));
+					rooms = file.nextLine().split(",");
+					for(String s: rooms){
+						tomp.addRoomAllowed(checkRoom(s));
+					}
 					break;
 				}
 				temp.add(tomp);
@@ -518,43 +527,43 @@ public class Main {
 		return;
 	}
 
-	public synchronized void areaInit() {
-		ArrayList<Area> temp = new ArrayList<Area>();
-		String fileName = null;
-		/*
-		 * if (System.getProperty("os.name").toLowerCase().contains("windows"))
-		 * { fileName = "G:" + slash + "JavaPrograms" + slash + "Eclipse" +
-		 * slash + "Game" + slash + "Resources" + slash + "Areas.txt"; } else {
-		 * fileName = slash + "Volumes" + slash + "KINGSTON" + slash +
-		 * "JavaPrograms" + slash + "Eclipse" + slash + "Game" + slash +
-		 * "Resources" + slash + "Areas.txt"; }
-		 */
-		fileName = "Resources" + slash + "Areas.tbe";
-		try {
-			Scanner file = new Scanner(new File(fileName));
+//	public synchronized void areaInit() {
+//		ArrayList<Area> temp = new ArrayList<Area>();
+//		String fileName = null;
+//		/*
+//		 * if (System.getProperty("os.name").toLowerCase().contains("windows"))
+//		 * { fileName = "G:" + slash + "JavaPrograms" + slash + "Eclipse" +
+//		 * slash + "Game" + slash + "Resources" + slash + "Areas.txt"; } else {
+//		 * fileName = slash + "Volumes" + slash + "KINGSTON" + slash +
+//		 * "JavaPrograms" + slash + "Eclipse" + slash + "Game" + slash +
+//		 * "Resources" + slash + "Areas.txt"; }
+//		 */
+//		fileName = "Resources" + slash + "Areas.tbe";
+//		try {
+//			Scanner file = new Scanner(new File(fileName));
+//
+//			while (file.hasNextLine()) {
+//				if (file.nextLine().startsWith("#")) {
+//					continue;
+//				}
+//				Area tomp = new Area(file.nextLine(), file.nextLine());
+//				String[] s = file.nextLine().split(", ");
+//				for (int i = 0; i < s.length; i++) {
+//					tomp.addRoom(checkRoom(s[i]));
+//				}
+//				temp.add(tomp);
+//			}
+//			file.close();
+//			areaList = temp;
+//			return;
+//		} catch (Exception e) {
+//			e.printStackTrace();
+//		}
+//		areaList = null;
+//		return;
+//	}
 
-			while (file.hasNextLine()) {
-				if (file.nextLine().startsWith("#")) {
-					continue;
-				}
-				Area tomp = new Area(file.nextLine(), file.nextLine());
-				String[] s = file.nextLine().split(", ");
-				for (int i = 0; i < s.length; i++) {
-					tomp.addRoom(checkRoom(s[i]));
-				}
-				temp.add(tomp);
-			}
-			file.close();
-			areaList = temp;
-			return;
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		areaList = null;
-		return;
-	}
-
-	public synchronized void entityPlace() {
+	/*public synchronized void entityPlace() {
 		// while(entityList == null){}
 		for (Entity e : entityList) {
 			if (e != null) {
@@ -567,9 +576,9 @@ public class Main {
 				}
 			}
 		}
-	}
+	}*/
 
-	public synchronized void itemPlace() {
+	/*public synchronized void itemPlace() {
 		for (int i = 0; i < itemList.size(); i++) {
 			Item it = itemList.get(i);
 			for (int j = 0; j < roomList.size(); j++) {
@@ -579,5 +588,5 @@ public class Main {
 				}
 			}
 		}
-	}
+	}*/
 }

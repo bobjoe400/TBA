@@ -1,10 +1,10 @@
 package objects;
 
-import world.Room;
-
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import interfaces.Item;
+import world.Room;
 
 public class Weapon implements Item, Serializable {
 
@@ -13,20 +13,20 @@ public class Weapon implements Item, Serializable {
 	private int attack;
 	private int defense;
 	private double weight;
-	private Room room;
+	private ArrayList<Room> roomsAllowed;
 
 	public Weapon(String name, String type, int attack, int defense,
-			double weight, Room room) {
+			double weight) {
 		this.name = name;
 		this.type = type;
 		this.attack = attack;
 		this.defense = defense;
 		this.weight = weight;
-		this.room = room;
+		this.roomsAllowed = new ArrayList<Room>();
 	}
 
 	public Weapon() {
-		this(null, null, 0, 0, 0, new Room());
+		this(null, null, 0, 0, 0);
 	}
 
 	@Override
@@ -60,9 +60,9 @@ public class Weapon implements Item, Serializable {
 	}
 
 	@Override
-	public void setRoom(Room room) {
+	public void addRoomAllowed(Room room) {
 		// TODO Auto-generated method stub
-		this.room = room;
+		roomsAllowed.add(room);
 	}
 
 	@Override
@@ -96,9 +96,9 @@ public class Weapon implements Item, Serializable {
 	}
 
 	@Override
-	public Room getRoom() {
+	public ArrayList<Room> getRoomsAllowed() {
 		// TODO Auto-generated method stub
-		return room;
+		return roomsAllowed;
 	}
 
 	public String toString() {

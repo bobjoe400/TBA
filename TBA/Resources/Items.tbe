@@ -6,34 +6,34 @@
 #Weight
 #Room
 
-0
+W
 Iron Sword
 Sword
 5
 2
 1.3
-Dungeon
+Dungeon,Hallway
 
-1
+A
 Leather Jacket
 Leather Armor
 0
 5
 2.0
-Prison Cell
+Prison Cell,Dungeon,Hallway
 
-0
+W
 Iron Axe
 Axe
 2
 1
 1.5
-Hallway
+Hallway,Dungeon
 
-1
+A
 Iron Armor
 Iron Armor
 6
 0
 4.5
-Hallway
+Hallway,Dungeon

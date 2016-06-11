@@ -1,31 +1,31 @@
 package objects;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import interfaces.Item;
 import world.Room;
 
-public class Armor implements Item, Serializable{
+public class Armor implements Item, Serializable {
 
 	public String name;
 	public String type;
 	public int attack;
 	public int defense;
 	public double weight;
-	public Room room;
+	public ArrayList<Room> roomsAllowed;
 
-	public Armor(String name, String type, int attack, int defense,
-			double weight, Room room) {
+	public Armor(String name, String type, int attack, int defense, double weight) {
 		this.name = name;
 		this.type = type;
 		this.attack = attack;
 		this.defense = defense;
 		this.weight = weight;
-		this.room = room;
+		roomsAllowed = new ArrayList<Room>();
 	}
 
 	public Armor() {
-		this(null, null, 0, 0, 0.0, new Room());
+		this(null, null, 0, 0, 0.0);
 	}
 
 	public void setName(String name) {
@@ -48,8 +48,8 @@ public class Armor implements Item, Serializable{
 		weight = w;
 	}
 
-	public void setRoom(Room room) {
-		this.room = room;
+	public void addRoomAllowed(Room room) {
+		roomsAllowed.add(room);
 	}
 
 	public String getName() {
@@ -77,14 +77,14 @@ public class Armor implements Item, Serializable{
 		return weight;
 	}
 
-	public Room getRoom() {
+	public ArrayList<Room> getRoomsAllowed() {
 
-		return room;
+		return roomsAllowed;
 	}
 
 	public String toString() {
-		return ("Name: " + name + "\nType: " + type + "\nAttack: " + attack
-				+ "\nDefense: " + defense + "\nWeight: " + weight + " lbs");
+		return ("Name: " + name + "\nType: " + type + "\nAttack: " + attack + "\nDefense: " + defense + "\nWeight: "
+				+ weight + " lbs");
 	}
 
 }
