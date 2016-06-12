@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
+import java.io.PrintWriter;
+import java.util.Random;
 
 import util.Location;
 import world.Room;
@@ -14,10 +16,39 @@ public class Map {
 	
 	
 	public Map(){
-		
+		try{
+			File file = new File("Resources/Map.tbe");
+			PrintWriter p = new PrintWriter(file);
+			for(int i = 0; i < 48; i ++){
+				for(int j = 0; j<48; j++){
+					if(i == 0 || i == 47 || j == 0 || j == 47){
+						p.print("#");
+					}else{
+						int x = Math.abs(new Random().nextInt(1000));
+						if(0 <= x && x < 250){
+							p.print("D");
+						}else if(x >= 250 && x < 500){
+							p.print("H");
+						}else if(x >= 500 && x < 750){
+							p.print("P");
+						}else if(x >= 750 && x < 1000){
+							p.print("J");
+						}
+					}
+				}
+				p.println();
+			}
+			p.close();
+		}catch(FileNotFoundException e){
+			e.printStackTrace();
+		}
 	}
 	
 	public Map(char[][] map){
+		
+	}
+	
+	public void LoadMap(){
 		
 	}
 	

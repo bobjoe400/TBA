@@ -41,21 +41,19 @@ public class Player implements Serializable{
 		this.agil = agil;
 		this.att = att;
 		this.def = def;
-		//this.currentRoom = room;
-		//this.prevRoom = proom;
 		this.loc = loc;
 		inventory = new ArrayList<Item>();
 		discoveredRooms = new ArrayList<Room>();
 	}
 
 	public Player(String name, String race, boolean isMale, int age,
-			int[] stats, /*Room room, Room proom*/Location loc) {
+			int[] stats, Location loc) {
 		this(name, race, isMale, age, stats[0], stats[1], stats[2], stats[3],
-				loc/*room, proom*/);
+				loc);
 	}
 
 	public Player() {
-		this(null, null, false, 0, 0, 0, 0, 0, new Location()/*new Room(null,null), new Room(null,null)*/);
+		this(null, null, false, 0, 0, 0, 0, 0, new Location());
 	}
 
 	public void setName(String name) {
@@ -187,16 +185,8 @@ public class Player implements Serializable{
 	}
 
 	public Room getCurRoom() {
-		return currentRoom;
+		return Main.map.getRoom(loc);
 	}
-
-	/*public Room getPrevRoom() {
-		return prevRoom;
-	}
-
-	public String getDirection() {
-		return direction;
-	}*/
 
 	public boolean hasItem(String item) {
 		if (inventory.contains(item))

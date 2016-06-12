@@ -7,8 +7,8 @@ public class Location implements Serializable {
 	private int y;
 	
 	public Location(){
-		x = 0;
-		y = 0;
+		x = 23;
+		y = 23;
 	}
 	
 	public Location(int x, int y){
@@ -24,6 +24,46 @@ public class Location implements Serializable {
 	public void setLocation(Location other){
 		this.x = other.getX();
 		this.y = other.getY();
+	}
+	
+	public boolean moveLeft(){
+		if(x-1 <= 0){
+			System.out.println("You can't go there.");
+			return false;
+		}else{
+			x--;
+			return true;
+		}
+	}
+	
+	public boolean moveRight(){
+		if(x+1 == 47){
+			System.out.println("You can't go there.");
+			return false;
+		}else{
+			x++;
+			return true;
+		}
+	}
+	
+	public boolean moveUp(){
+		if(x+1 == 47){
+			System.out.println("You can't go there.");
+			return false;
+		}else{
+			x++;
+			return true;
+		}
+	}
+	
+	public boolean moveDown(){
+		if(x-1 == 0){
+			System.out.println("You can't go there.");
+			return false;
+		}else{
+			x--;
+			return true;
+		}
 	}
 	
 	public Location getLocation(){

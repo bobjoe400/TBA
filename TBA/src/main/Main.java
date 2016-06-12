@@ -55,6 +55,9 @@ public class Main {
 				entityInit();
 				percent += 17;
 			}
+			synchronized(_lock){
+				mapInit();
+			}
 //			synchronized (_lock) {
 //				entityPlace();
 //				percent += 17;
@@ -526,6 +529,10 @@ public class Main {
 		roomList = null;
 		return;
 	}
+	
+	public synchronized void mapInit(){
+		map = new Map();
+	}
 
 //	public synchronized void areaInit() {
 //		ArrayList<Area> temp = new ArrayList<Area>();
@@ -578,15 +585,7 @@ public class Main {
 		}
 	}*/
 
-	/*public synchronized void itemPlace() {
-		for (int i = 0; i < itemList.size(); i++) {
-			Item it = itemList.get(i);
-			for (int j = 0; j < roomList.size(); j++) {
-				Room rm = roomList.get(j);
-				if (rm.getName().equals(it.getRoom().getName())) {
-					rm.addItem(it);
-				}
-			}
-		}
-	}*/
+	public synchronized void itemPlace() {
+		
+	}
 }
