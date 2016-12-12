@@ -1,4 +1,4 @@
-package main;
+package world;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,7 +9,6 @@ import java.io.PrintWriter;
 import java.util.Random;
 
 import util.Location;
-import world.Room;
 
 public class Map {
 	private Room[][] map;

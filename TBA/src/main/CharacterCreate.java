@@ -6,12 +6,13 @@ import java.util.Scanner;
 import util.Location;
 
 public class CharacterCreate {
-	
+
 	private Player user;
 	private Scanner in = new Scanner(System.in);
 	private Random randGen = new Random();
-	
+
 	public Player create(boolean newgame) {
+		boolean set = true;
 		user = new Player();
 		if (!newgame) {
 			user = user.loadState();
@@ -21,9 +22,7 @@ public class CharacterCreate {
 		String s = in.nextLine();
 		if (s.equals("Teh Overlord Zenu")) {
 			user = new Player(s, "Diete", true, 69, 100, 100, 100, 100, new Location());
-			
-			System.out.println(Main.skillCheck(user));
-			return user;
+			set = false;
 		}
 		if (s.equalsIgnoreCase("yolo")) {
 			int x = randGen.nextInt(1001);
@@ -32,40 +31,45 @@ public class CharacterCreate {
 			if (y == 1)
 				b = false;
 			user = new Player("Yolo", "Swaggot", b, x, randStats(420), new Location());
-			System.out.println(Main.skillCheck(user));
-			return user;
+			set = false;
 		}
 		if (s.equalsIgnoreCase("cooper")) {
 			user = new Player("Cooper", "Human", true, 18, 2, 2, 3, 3, new Location());
-			System.out.println(Main.skillCheck(user));
+			System.out.println(user.displaySkills());
+			set = false;
+		}
+		if (s.equalsIgnoreCase("debug")) {
+
+		}
+		if (!set) {
+			System.out.println(user.displaySkills());
+			return user;
+		} else {
+			user.setName(s);
+			do {
+				s = null;
+				System.out.print("What would you like your age to be? > ");
+				s = in.nextLine();
+			} while (!util.typeCheck.isInteger(s, -1));
+			user.setAge(Integer.parseInt(s));
+			System.out.print("What would you like your race to be? > ");
+			user.setRace(in.nextLine());
+			boolean go = false;
+			do {
+				s = null;
+				go = true;
+				System.out.print("What would you like your gender to be? >");
+				s = in.nextLine();
+				if (!s.equalsIgnoreCase("male") && !s.equalsIgnoreCase("female")) {
+					System.out.println("Please enter \"Male\" or \"Female\".");
+					go = false;
+				}
+			} while (!go);
+			user.setGender(s);
+			while (!attribSet()) {
+			}
 			return user;
 		}
-		if(s.equalsIgnoreCase("debug")){
-			
-		}
-		user.setName(s);
-		do {
-			s = null;
-			System.out.print("What would you like your age to be? > ");
-			s = in.nextLine();
-		} while (!util.typeCheck.isInteger(s, -1));
-		user.setAge(Integer.parseInt(s));
-		System.out.print("What would you like your race to be? > ");
-		user.setRace(in.nextLine());
-		boolean go = false;
-		do {
-			s = null;
-			go = true;
-			System.out.print("What would you like your gender to be? >");
-			s = in.nextLine();
-			if (!s.equalsIgnoreCase("male") && !s.equalsIgnoreCase("female")) {
-				System.out.println("Please enter \"Male\" or \"Female\".");
-				go = false;
-			}
-		} while (!go);
-		user.setGender(s);
-		while(!attribSet()){}
-		return user;
 	}
 
 	public boolean attribSet() {
@@ -89,10 +93,10 @@ public class CharacterCreate {
 				go = false;
 			}
 		}
-		System.out.println(Main.skillCheck(user));
+		System.out.println(user.displaySkills());
 		return true;
 	}
-	
+
 	public int[] randStats(int total) {
 		int[] stats = new int[4];
 		for (int i = 0; i < stats.length; i++) {

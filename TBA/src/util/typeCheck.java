@@ -1,11 +1,11 @@
 package util;
 
 import interfaces.Item;
-import main.Main;
+import main.Game;
 import world.Room;
 
 public class typeCheck {
-	
+
 	public static boolean isInteger(String s, int range) {
 		try {
 			Integer.parseInt(s);
@@ -30,7 +30,7 @@ public class typeCheck {
 
 	public synchronized static Room checkRoom(String s) {
 		// System.out.println("cr"+s);
-		for (Room rm : Main.roomList) {
+		for (Room rm : Game.roomList) {
 			if (s.equalsIgnoreCase(rm.getName())) {
 				return rm;
 			}
@@ -41,7 +41,7 @@ public class typeCheck {
 
 	public synchronized static Item checkItem(String s) {
 		// while(itemList == null){}
-		for (Item it : Main.itemList) {
+		for (Item it : Game.itemList) {
 			if (s.equalsIgnoreCase(it.getName())) {
 				return it;
 			}
