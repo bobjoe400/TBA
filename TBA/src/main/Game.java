@@ -2,6 +2,7 @@ package main;
 
 import java.io.File;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 import interfaces.Entity;
@@ -158,36 +159,8 @@ public class Game {
 		return Integer.parseInt(s);
 	}
 
-	public Item randGenItem() {
-		boolean go;
-		Item x = null;
-		do {
-			go = true;
-			for (int i = 0; i < itemList.size(); i++) {
-				String s = itemList.get(i).getName();
-				if (user.hasItem(s)) {
-					go = false;
-					break;
-				}
-				x = itemList.get(i);
-			}
-		} while (!go);
-		if (x.equals(null))
-			randGenItem();
-		return x;
-	}
-
-	public static Item randGenItem(int n) {
-		boolean go;
-		Item x = null;
-		do {
-			go = true;
-			for (int i = 0; i < itemList.size(); i++) {
-				x = itemList.get(i);
-			}
-		} while (!go);
-		if (x.equals(null))
-			randGenItem(0);
-		return x;
+	public static Item randGenItem() {
+		Random rand = new Random();
+		return itemList.get(rand.nextInt(itemList.size()));
 	}
 }

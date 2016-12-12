@@ -197,14 +197,14 @@ public class Init {
 	 */
 	
 	public synchronized static Map itemPlace(Game g) {
-		Map temp = g.map;
+		Map temp = Game.map;
 		for (int i = 0; i < 48; i++) {
 			for (int j = 0; j < 48; j++) {
 				if (i == 22 && j == 22) {
 					continue;
 				}
 				Room tomp = temp.getMap()[i][j];
-				tomp.addItem(Game.randGenItem(0));
+				tomp.addItem(Game.randGenItem());
 				temp.setRoom(new Location(i, j), tomp);
 			}
 		}

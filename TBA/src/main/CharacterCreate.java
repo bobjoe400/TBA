@@ -35,7 +35,6 @@ public class CharacterCreate {
 		}
 		if (s.equalsIgnoreCase("cooper")) {
 			user = new Player("Cooper", "Human", true, 18, 2, 2, 3, 3, new Location());
-			System.out.println(user.displaySkills());
 			set = false;
 		}
 		if (s.equalsIgnoreCase("debug")) {
