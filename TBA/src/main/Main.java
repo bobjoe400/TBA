@@ -9,6 +9,8 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
+import com.sun.org.apache.xerces.internal.util.SynchronizedSymbolTable;
+
 import interfaces.Entity;
 import interfaces.Item;
 import objects.Chest;
@@ -66,10 +68,11 @@ public class Main {
 			// entityPlace();
 			// percent += 17;
 			// }
-			// synchronized (_lock) {
-			// itemPlace();
-			// percent = 100;
-			// }
+			synchronized (_lock) {
+				System.out.println("Starting to Place Items");
+				itemPlace();
+				System.out.println("Finished Placing Items");
+			}
 			// threadMessage("all loaded");
 		}
 	}
@@ -97,12 +100,8 @@ public class Main {
 		 */
 		Main main = new Main();
 		main.load();
-		if (main.charCreate(newgame)) {
-			boolean go = false;
-			while (!go) {
-				go = main.attribSet();
-			}
-		}
+		CharacterCreate cc = new CharacterCreate();
+		user = cc.create(newgame);
 		main.wakeUp("You wake up to see a dark room.", false);
 		in.close();
 	}
@@ -116,114 +115,6 @@ public class Main {
 		 */
 		load.join();
 		System.out.println("Loading Complete!");
-	}
-
-	public boolean charCreate(boolean newgame) {
-		user = new Player();
-		if (!newgame) {
-			user = user.loadState();
-			return false;
-		}
-		System.out.print("What do you want your name to be? > ");
-		String s = in.nextLine();
-		if (s.equals("Teh Overlord Zenu")) {
-			user = new Player(s, "Diete", true, 69, 100, 100, 100, 100, new Location());
-			System.out.println(skillCheck());
-			return false;
-		}
-		if (s.equalsIgnoreCase("yolo")) {
-			int x = randGen.nextInt(1001);
-			int y = randGen.nextInt(2);
-			boolean b = true;
-			if (y == 1)
-				b = false;
-			user = new Player("Yolo", "Swaggot", b, x, randStats(420), new Location());
-			System.out.println(skillCheck());
-			return false;
-		}
-		if (s.equalsIgnoreCase("cooper")) {
-			user = new Player("Cooper", "Human", true, 18, 2, 2, 3, 3, new Location());
-			System.out.println(skillCheck());
-			return false;
-		}
-		user.setName(s);
-		do {
-			s = null;
-			System.out.print("What would you like your age to be? > ");
-			s = in.nextLine();
-		} while (!isInteger(s, -1));
-		user.setAge(Integer.parseInt(s));
-		System.out.print("What would you like your race to be? > ");
-		user.setRace(in.nextLine());
-		boolean go = false;
-		do {
-			s = null;
-			go = true;
-			System.out.print("What would you like your gender to be? >");
-			s = in.nextLine();
-			if (!s.equalsIgnoreCase("male") && !s.equalsIgnoreCase("female")) {
-				System.out.println("Please enter \"Male\" or \"Female\".");
-				go = false;
-			}
-		} while (!go);
-		user.setGender(s);
-		return true;
-	}
-
-	public boolean attribSet() {
-		String s = null;
-		user.resetStats();
-		System.out.println("You have 10 points to spend, use them wisely");
-		levelUp(10);
-		boolean go = false;
-		while (!go) {
-			go = true;
-			System.out.println("Do you want these to be your skill points?");
-			System.out.println(user.displaySkills());
-			s = in.nextLine();
-			if (s.startsWith("y") || s.startsWith("Y")) {
-				break;
-			}
-			if (s.startsWith("n") || s.startsWith("N")) {
-				return false;
-			} else {
-				System.out.println("Please enter \"yes\" or \"no\"");
-				go = false;
-			}
-		}
-		System.out.println(skillCheck());
-		return true;
-	}
-
-	public void levelUp(int total) {
-		String s;
-		do {
-			do {
-				System.out.println(user.displaySkills());
-				System.out.print("What skill would you like to change? (Please choose 1,2,3, or 4) >");
-				s = in.nextLine();
-			} while (!isInteger(s, 4));
-			int x = Integer.parseInt(s);
-			switch (x) {
-			case 1:
-				user.setIntel(user.getIntel() + 1);
-				total--;
-				break;
-			case 2:
-				user.setAgil(user.getAgil() + 1);
-				total--;
-				break;
-			case 3:
-				user.setAtt(user.getAtt() + 1);
-				total--;
-				break;
-			case 4:
-				user.setDef(user.getDef() + 1);
-				total--;
-				break;
-			}
-			System.out.println("You have " + total + " points left to spend.");
-		} while (total > 0);
 	}
 
 	public void wakeUp(String s, boolean secTime) {
@@ -274,7 +165,7 @@ public class Main {
 			System.out.println("What would you like to do?");
 			System.out.println("You can type -1 at any time to quit.");
 			s = in.nextLine();
-		} while (!isInteger(s, choices.length));
+		} while (!util.typeCheck.isInteger(s, choices.length));
 		if (Integer.parseInt(s) == -1) {
 			System.out.println("Saving game.");
 			user.saveState();
@@ -301,80 +192,22 @@ public class Main {
 			randGenItem();
 		return x;
 	}
-
-	public int[] randStats(int total) {
-		int[] stats = new int[4];
-		for (int i = 0; i < stats.length; i++) {
-			stats[i] = 0;
-		}
-		for (int i = 0; i < stats.length; i++) {
-			int x = randGen.nextInt(total + 1);
-			if (x > total) {
-				i--;
-				continue;
+	
+	public Item randGenItem(int n) {
+		boolean go;
+		Item x = null;
+		do {
+			go = true;
+			for (int i = 0; i < itemList.size(); i++) {
+				x = itemList.get(i);
 			}
-			total -= x;
-			stats[i] = x;
-			if (total > 0 && stats[3] == 0)
-				stats[3] = total;
-		}
-		return stats;
+		} while (!go);
+		if (x.equals(null))
+			randGenItem();
+		return x;
 	}
-
-	public boolean isInteger(String s, int range) {
-		try {
-			Integer.parseInt(s);
-		} catch (NumberFormatException e) {
-			System.out.println("Please enter a number.");
-			System.out.println();
-			return false;
-		}
-		int x = Integer.parseInt(s);
-		System.out.println(x);
-		if (x == -1)
-			return true;
-		if (range == -1)
-			return true;
-		if (x > range || x < 1) {
-			System.out.println("Please enter a valid number. (1-" + range + ")");
-			System.out.println();
-			return false;
-		}
-		return true;
-	}
-
-	public synchronized Room checkRoom(String s) {
-		// System.out.println("cr"+s);
-		for (Room rm : roomList) {
-			if (s.equalsIgnoreCase(rm.getName())) {
-				return rm;
-			}
-		}
-		System.out.println();
-		return null;
-	}
-
-	public static Room checkRoomStatic(String s) {
-		for (Room rm : roomList) {
-			if (s.equalsIgnoreCase(rm.getName())) {
-				return rm;
-			}
-		}
-		System.out.println();
-		return null;
-	}
-
-	public synchronized Item checkItem(String s) {
-		// while(itemList == null){}
-		for (Item it : itemList) {
-			if (s.equalsIgnoreCase(it.getName())) {
-				return it;
-			}
-		}
-		return null;
-	}
-
-	public synchronized String skillCheck() {
+	
+	public static String skillCheck(Player user) {
 		String s = "Heres what skills you have: ";
 		if (user.getAgil() >= 5)
 			s += "\nPower of Moonwalking";
@@ -417,7 +250,7 @@ public class Main {
 							Double.parseDouble(file.nextLine()));
 					rooms = file.nextLine().split(",");
 					for (String s : rooms) {
-						tomp.addRoomAllowed(checkRoom(s));
+						tomp.addRoomAllowed(util.typeCheck.checkRoom(s));
 					}
 					break;
 				case 'A':
@@ -425,7 +258,7 @@ public class Main {
 							Integer.parseInt(file.nextLine()), Double.parseDouble(file.nextLine()));
 					rooms = file.nextLine().split(",");
 					for (String s : rooms) {
-						tomp.addRoomAllowed(checkRoom(s));
+						tomp.addRoomAllowed(util.typeCheck.checkRoom(s));
 					}
 					break;
 				}
@@ -466,16 +299,16 @@ public class Main {
 				int type = Integer.parseInt(line);
 				switch (type) {
 				case 0:
-					tomp = new Chest(file.nextLine(), checkRoom(file.nextLine()));
+					tomp = new Chest(file.nextLine(), util.typeCheck.checkRoom(file.nextLine()));
 					// System.out.println("ec"+tomp.getName());
 					String[] timp = file.nextLine().split(", ");
 					// System.out.println("ec2"+timp[0]);
 					for (int i = 0; i < timp.length; i++) {
-						((Chest) tomp).addItem(checkItem(timp[i]));
+						((Chest) tomp).addItem(util.typeCheck.checkItem(timp[i]));
 					}
 					break;
 				case 1:
-					tomp = EntityCreate.chairCreate(file.nextLine(), checkRoom(file.nextLine()));
+					tomp = EntityCreate.chairCreate(file.nextLine(), util.typeCheck.checkRoom(file.nextLine()));
 					break;
 				default:
 					System.out.println("IT DIDN'T WORK");
@@ -581,6 +414,15 @@ public class Main {
 	 */
 
 	public synchronized void itemPlace() {
-
+		for (int i = 0; i < 48; i++) {
+			for (int j = 0; j < 48; j++) {
+				if (i == 22 && j == 22) {
+					continue;
+				}
+				Room temp = map.getMap()[i][j];
+				temp.addItem(randGenItem(0));
+				map.setRoom(new Location(i, j), temp);
+			}
+		}
 	}
 }

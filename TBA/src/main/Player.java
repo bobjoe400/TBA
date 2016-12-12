@@ -9,12 +9,16 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Scanner;
 
 import interfaces.Item;
-import world.Room;
 import util.Location;
+import world.Room;
 
 public class Player implements Serializable{
+	
+	private Scanner in = new Scanner(System.in);
+	
 	private String name;
 	private String race;
 	private String direction;
@@ -212,7 +216,7 @@ public class Player implements Serializable{
 		return s;
 	}
 
-	public String displaySkills() {
+	public String displayStats() {
 		return ("Here's the skills:" + "\n1. Intelligence: " + intel
 				+ "\n2. Agility: " + agil + "\n3. Attack: " + att
 				+ "\n4. Defense: " + def);
@@ -226,6 +230,39 @@ public class Player implements Serializable{
 		}
 		System.out.println("---------------");
 	}
+	
+	public void levelUp(int total) {
+		String s;
+		do {
+			do {
+				System.out.println(displayStats());
+				System.out.print("What skill would you like to change? (Please choose 1,2,3, or 4) >");
+				s = in.nextLine();
+			} while (!util.typeCheck.isInteger(s, 4));
+			int x = Integer.parseInt(s);
+			switch (x) {
+			case 1:
+				intel++;
+				total--;
+				break;
+			case 2:
+				agil++;
+				total--;
+				break;
+			case 3:
+				att++;
+				total--;
+				break;
+			case 4:
+				def++;
+				total--;
+				break;
+			}
+			System.out.println("You have " + total + " points left to spend.");
+		} while (total > 0);
+	}
+	
+	
 	
 	public void saveState(){
 		try{

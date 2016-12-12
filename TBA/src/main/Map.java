@@ -26,21 +26,21 @@ public class Map {
 						map[i][j] = new Room("Wall", "It's a wall.");
 					} else if(i == 22 && j == 22){
 						p.print("P");
-						map[i][j] = Main.checkRoomStatic("Prison Cell");
+						map[i][j] = util.typeCheck.checkRoom("Prison Cell");
 					} else {
 						int x = Math.abs(new Random().nextInt(1000));
 						if (0 <= x && x < 250) {
 							p.print("D");
-							map[i][j] = Main.checkRoomStatic("Dungeon");
+							map[i][j] = util.typeCheck.checkRoom("Dungeon");
 						} else if (x >= 250 && x < 500) {
 							p.print("H");
-							map[i][j] = Main.checkRoomStatic("Hallway");
+							map[i][j] = util.typeCheck.checkRoom("Hallway");
 						} else if (x >= 500 && x < 750) {
 							p.print("P");
-							map[i][j] = Main.checkRoomStatic("Prison Cell");
+							map[i][j] = util.typeCheck.checkRoom("Prison Cell");
 						} else if (x >= 750 && x < 1000) {
 							p.print("J");
-							map[i][j] = Main.checkRoomStatic("Hallway");
+							map[i][j] = util.typeCheck.checkRoom("Hallway");
 						}
 					}
 				}
@@ -80,6 +80,10 @@ public class Map {
 
 	public Room getRoom(Location loc) {
 		return map[loc.getX()][loc.getY()];
+	}
+	
+	public void setRoom(Location loc, Room rm){
+		map[loc.getX()][loc.getY()] = rm;
 	}
 
 	public Room[][] getMap() {
