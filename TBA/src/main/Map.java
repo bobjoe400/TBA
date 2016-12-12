@@ -13,47 +13,55 @@ import world.Room;
 
 public class Map {
 	private Room[][] map;
-	
-	
-	public Map(){
-		try{
+
+	public Map() {
+		map = new Room[48][48];
+		try {
 			File file = new File("Resources/Map.tbe");
 			PrintWriter p = new PrintWriter(file);
-			for(int i = 0; i < 48; i ++){
-				for(int j = 0; j<48; j++){
-					if(i == 0 || i == 47 || j == 0 || j == 47){
+			for (int i = 0; i < 48; i++) {
+				for (int j = 0; j < 48; j++) {
+					if (i == 0 || i == 47 || j == 0 || j == 47) {
 						p.print("#");
-					}else{
+						map[i][j] = new Room("Wall", "It's a wall.");
+					} else if(i == 22 && j == 22){
+						p.print("P");
+						map[i][j] = Main.checkRoomStatic("Prison Cell");
+					} else {
 						int x = Math.abs(new Random().nextInt(1000));
-						if(0 <= x && x < 250){
+						if (0 <= x && x < 250) {
 							p.print("D");
-						}else if(x >= 250 && x < 500){
+							map[i][j] = Main.checkRoomStatic("Dungeon");
+						} else if (x >= 250 && x < 500) {
 							p.print("H");
-						}else if(x >= 500 && x < 750){
+							map[i][j] = Main.checkRoomStatic("Hallway");
+						} else if (x >= 500 && x < 750) {
 							p.print("P");
-						}else if(x >= 750 && x < 1000){
+							map[i][j] = Main.checkRoomStatic("Prison Cell");
+						} else if (x >= 750 && x < 1000) {
 							p.print("J");
+							map[i][j] = Main.checkRoomStatic("Hallway");
 						}
 					}
 				}
 				p.println();
 			}
 			p.close();
-		}catch(FileNotFoundException e){
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
 	}
-	
-	public Map(char[][] map){
-		
+
+	public Map(char[][] map) {
+
 	}
-	
-	public void LoadMap(){
-		
+
+	public void LoadMap() {
+
 	}
-	
-	public void saveMap(){
-		try{
+
+	public void saveMap() {
+		try {
 			System.out.println(getClass());
 			File file = new File("Resources/Map.tbes");
 			file.createNewFile();
@@ -61,20 +69,20 @@ public class Map {
 			ObjectOutputStream ostream = new ObjectOutputStream(fstream);
 			ostream.writeObject(this);
 			ostream.close();
-			System.out.println("Map saved"); 
-		}catch(FileNotFoundException e){
+			System.out.println("Map saved");
+		} catch (FileNotFoundException e) {
 			e.printStackTrace();
-		}catch(IOException e){
+		} catch (IOException e) {
 			System.out.println();
 			e.printStackTrace();
 		}
 	}
-	
-	public Room getRoom(Location loc){
+
+	public Room getRoom(Location loc) {
 		return map[loc.getX()][loc.getY()];
 	}
-	
-	public Room[][] getMap(){
+
+	public Room[][] getMap() {
 		return map;
 	}
 }

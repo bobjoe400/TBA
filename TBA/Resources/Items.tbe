@@ -5,7 +5,7 @@
 #Defense
 #Weight
 #Room
-
+#
 W
 Iron Sword
 Sword
@@ -13,7 +13,7 @@ Sword
 2
 1.3
 Dungeon,Hallway
-
+#
 A
 Leather Jacket
 Leather Armor
@@ -21,7 +21,7 @@ Leather Armor
 5
 2.0
 Prison Cell,Dungeon,Hallway
-
+#
 W
 Iron Axe
 Axe
@@ -29,7 +29,7 @@ Axe
 1
 1.5
 Hallway,Dungeon
-
+#
 A
 Iron Armor
 Iron Armor
