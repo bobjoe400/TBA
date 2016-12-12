@@ -8,20 +8,22 @@ import interfaces.Item;
 
 public class Room implements Serializable{
 	private String name;
+	private String abbreviation; 
 	private String descript;
 
 	private ArrayList<Entity> entities;
 	private ArrayList<Item> items;
 
-	public Room(String name, String descript) {
+	public Room(String name, String abbreviation, String descript) {
 		this.name = name;
 		this.descript = descript;
+		this.abbreviation = abbreviation;
 		entities = new ArrayList<Entity>();
 		items = new ArrayList<Item>();
 	}
 
 	public Room() {
-		this(null, null);
+		this(null, null, null);
 	}
 
 	public void addEntity(Entity e) {
@@ -38,6 +40,10 @@ public class Room implements Serializable{
 
 	public String getDescript() {
 		return descript;
+	}
+	
+	public String getAbbv() {
+		return abbreviation; 
 	}
 
 	public String toString() {

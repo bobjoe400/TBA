@@ -7,6 +7,7 @@ import java.util.Scanner;
 import interfaces.Entity;
 import interfaces.Item;
 import objects.Chest;
+import util.Generate;
 import util.Location;
 import world.Map;
 import world.Room;
@@ -141,7 +142,8 @@ public class Init {
 					continue;
 				}
 				String line2 = file.nextLine();
-				Room tomp = new Room(line, line2);
+				String line3 = file.nextLine();
+				Room tomp = new Room(line, line2, line3);
 				temp.add(tomp);
 			}
 			file.close();
@@ -204,7 +206,7 @@ public class Init {
 					continue;
 				}
 				Room tomp = temp.getMap()[i][j];
-				tomp.addItem(Game.randGenItem());
+				tomp.addItem(Generate.item());
 				temp.setRoom(new Location(i, j), tomp);
 			}
 		}

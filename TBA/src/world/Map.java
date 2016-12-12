@@ -8,6 +8,7 @@ import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
 import java.util.Random;
 
+import util.Generate;
 import util.Location;
 
 public class Map {
@@ -20,27 +21,15 @@ public class Map {
 			PrintWriter p = new PrintWriter(file);
 			for (int i = 0; i < 48; i++) {
 				for (int j = 0; j < 48; j++) {
-					if (i == 0 || i == 47 || j == 0 || j == 47) {
-						p.print("#");
-						map[i][j] = new Room("Wall", "It's a wall.");
-					} else if(i == 22 && j == 22){
-						p.print("P");
+					if (i == 0 || i == 47 || j == 0 || j == 95) {
+						p.print("##");
+						map[i][j] = new Room("Wall", "WA", "It's a wall.");
+					} else if(i == 23  && j == 47){
 						map[i][j] = util.typeCheck.checkRoom("Prison Cell");
-					} else {
-						int x = Math.abs(new Random().nextInt(1000));
-						if (0 <= x && x < 250) {
-							p.print("D");
-							map[i][j] = util.typeCheck.checkRoom("Dungeon");
-						} else if (x >= 250 && x < 500) {
-							p.print("H");
-							map[i][j] = util.typeCheck.checkRoom("Hallway");
-						} else if (x >= 500 && x < 750) {
-							p.print("P");
-							map[i][j] = util.typeCheck.checkRoom("Prison Cell");
-						} else if (x >= 750 && x < 1000) {
-							p.print("J");
-							map[i][j] = util.typeCheck.checkRoom("Hallway");
-						}
+					}else{
+						Room temp = Generate.room();
+						map[i][j] = temp;
+						p.println(temp.getAbbv());
 					}
 				}
 				p.println();
