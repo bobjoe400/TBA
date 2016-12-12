@@ -26,7 +26,7 @@ public class Game {
 		public void run() {
 			synchronized (_lock) {
 				System.out.println("Started Room Initialization");
-				Game.this.roomList = (List<Room>) Init.room(Game.this);
+				Game.roomList = (List<Room>) Init.room(Game.this);
 				System.out.println("Finished Room Initialization");
 			}
 			// synchronized (_lock) {
@@ -35,17 +35,17 @@ public class Game {
 			// }
 			synchronized (_lock) {
 				System.out.println("Started Item Initialization");
-				Game.this.itemList = (List<Item>) Init.item(Game.this);
+				Game.itemList = (List<Item>) Init.item(Game.this);
 				System.out.println("Finished Item Initialization");
 			}
 			synchronized (_lock) {
 				System.out.println("Started Entity Initialization");
-				Game.this.entityList = (List<Entity>) Init.entity(Game.this);
+				Game.entityList = (List<Entity>) Init.entity(Game.this);
 				System.out.println("Finished Entity Initialization");
 			}
 			synchronized (_lock) {
 				System.out.println("Started Map Initialization");
-				Game.this.map = (Map) Init.map(Game.this);
+				Game.map = (Map) Init.map(Game.this);
 				System.out.println("Finished Map Initialization");
 			}
 			// synchronized (_lock) {
@@ -54,7 +54,7 @@ public class Game {
 			// }
 			synchronized (_lock) {
 				System.out.println("Starting to Place Items");
-				Game.this.map = (Map) Init.itemPlace(Game.this);
+				Game.map = (Map) Init.itemPlace(Game.this);
 				System.out.println("Finished Placing Items");
 			}
 			// threadMessage("all loaded");
