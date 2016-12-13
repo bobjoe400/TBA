@@ -52,7 +52,6 @@ public class Map {
 	}
 
 	private Room[][] startEval(int runs, Room[][] map) {
-		System.out.println(runs);
 		if (runs == 10) {
 			return map;
 		}
@@ -78,35 +77,11 @@ public class Map {
 			return base;
 		}
 		int total = 0;
-		//Room most;
-		// System.out.println(neighbors);
 		for (Room r : neighbors) {
-			// System.out.println(r.getName());
-//			if (r.getAbbv().equals("SA")) {
-//				total = -1;
-//				break;
-//			}
 			if (r.getAbbv().equals("##")){
 				total++;
 			}
 		}
-//		HashMap<Room, Integer> hm = new HashMap<Room, Integer>();
-//		int max = 1;
-//		Room temp = new Room();
-//		for (int i = 0; i < neighbors.length; i++) {
-//			if (hm.get(neighbors[i]) != null) {
-//				int count = hm.get(neighbors[i]);
-//				count = count + 1;
-//				hm.put(neighbors[i], count);
-//				if (count > max) {
-//					max = count;
-//					temp = neighbors[i];
-//				}
-//			} else {
-//				hm.put(neighbors[i], 1);
-//			}
-//		}
-//		most = temp;
 		if(total >= 5 || total == 0){
 			return new Room("Wall","##","It's a wall");
 		}else{
