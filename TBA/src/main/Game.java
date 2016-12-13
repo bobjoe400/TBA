@@ -83,7 +83,7 @@ public class Game {
 			load();
 			CharacterCreate cc = new CharacterCreate();
 			user = cc.create(newgame);
-			wakeUp("You wake up to see a dark room.", false);
+			wakeUp("You wake up to a dark room.", false);
 			in.close();
 		} catch (Exception e) {
 			e.printStackTrace();

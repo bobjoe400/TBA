@@ -1,5 +1,7 @@
 package util;
 
+import java.util.HashMap;
+
 import interfaces.Item;
 import main.Game;
 import world.Room;

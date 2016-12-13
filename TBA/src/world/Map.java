@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Random;
 
 import util.Generate;
 import util.Location;
@@ -15,32 +17,100 @@ public class Map {
 	private Room[][] map;
 
 	public Map() {
-		map = new Room[48][96];
+		map = new Room[48][48];
+
+		for (int i = 0; i < 48; i++) {
+			for (int j = 0; j < 48; j++) {
+				if (i == 23 && j == 23) {
+					Room temp = new Room("Prison Cell", "SA", "A damp dark room.");
+					map[i][j] = temp;
+				} else {
+					Random rand = new Random();
+					Room temp;
+					if(rand.nextInt(100) < 25){temp = new Room("Wall", "##", "It's a wall");
+					}else{
+						temp = Generate.room();
+					}
+					map[i][j] = temp;
+				}
+			}
+		}
+		map = startEval(0, map);
 		try {
 			File file = new File("Resources/Map.tbe");
 			PrintWriter p = new PrintWriter(file);
 			for (int i = 0; i < 48; i++) {
-				p.print("|");
-				for (int j = 0; j < 96; j++) {
-					if (i == 0 || i == 47 || j == 0 || j == 95) {
-						p.print("##");
-						map[i][j] = new Room("Wall", "WA", "It's a wall.");
-					} else if (i == 23 && j == 47) {
-						Room temp = typeCheck.checkRoom("Prison Cell");
-						map[i][j] = temp;
-						p.print(temp.getAbbv());
-					} else {
-						Room temp = Generate.room();
-						map[i][j] = temp;
-						p.print(temp.getAbbv());
-					}
-					p.print("|");
+				for (int j = 0; j < 48; j++) {
+					p.print("|" + map[i][j].getAbbv() + "|");
 				}
 				p.println();
 			}
 			p.close();
-		} catch (FileNotFoundException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
+		}
+	}
+
+	private Room[][] startEval(int runs, Room[][] map) {
+		System.out.println(runs);
+		if (runs == 10) {
+			return map;
+		}
+		Room[][] newMap = new Room[48][48];
+		for (int i = 1; i < 47; i++) {
+			for (int j = 1; j < 47; j++) {
+				Room[] neighbors = new Room[] { map[i - 1][j - 1], map[i - 1][j], map[i - 1][j + 1], map[i][j - 1],
+						map[i][j + 1], map[i + 1][j - 1], map[i + 1][j], map[i + 1][j + 1] };
+				newMap[i][j] = newRoom(map[i][j], neighbors);
+			}
+		}
+		for (int i = 1; i < 47; i++) {
+			for (int j = 1; j < 47; j++) {
+				map[i][j] = newMap[i][j];
+			}
+		}
+		runs++;
+		return startEval(runs, map);
+	}
+
+	private Room newRoom(Room base, Room[] neighbors) {
+		if (base.getAbbv().equals("SA")) {
+			return base;
+		}
+		int total = 0;
+		//Room most;
+		// System.out.println(neighbors);
+		for (Room r : neighbors) {
+			// System.out.println(r.getName());
+//			if (r.getAbbv().equals("SA")) {
+//				total = -1;
+//				break;
+//			}
+			if (r.getAbbv().equals("##")){
+				total++;
+			}
+		}
+//		HashMap<Room, Integer> hm = new HashMap<Room, Integer>();
+//		int max = 1;
+//		Room temp = new Room();
+//		for (int i = 0; i < neighbors.length; i++) {
+//			if (hm.get(neighbors[i]) != null) {
+//				int count = hm.get(neighbors[i]);
+//				count = count + 1;
+//				hm.put(neighbors[i], count);
+//				if (count > max) {
+//					max = count;
+//					temp = neighbors[i];
+//				}
+//			} else {
+//				hm.put(neighbors[i], 1);
+//			}
+//		}
+//		most = temp;
+		if(total >= 5 || total == 0){
+			return new Room("Wall","##","It's a wall");
+		}else{
+			return base;
 		}
 	}
 
