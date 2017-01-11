@@ -6,16 +6,20 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
-import java.util.HashMap;
 import java.util.Random;
 
 import util.Generate;
 import util.Location;
-import util.typeCheck;
+
 
 public class Map {
 	private Room[][] map;
 
+//	Create a basic map using the cellular automata procedural generation method. 
+//	we first generate a completely random map with a 25% chance of the rooms being walls, 
+//	if they are not a wall, generate a random room.
+//	we then start iterating through the map, using a pseudo game of life to generate 
+//	areas that are surrounded by walls. 
 	public Map() {
 		map = new Room[48][48];
 
@@ -51,6 +55,7 @@ public class Map {
 		}
 	}
 
+	//our recursive iteration for the map creation, I found the 10 runs is the right amount to create a good map. 
 	private Room[][] startEval(int runs, Room[][] map) {
 		if (runs == 10) {
 			return map;
@@ -72,6 +77,9 @@ public class Map {
 		return startEval(runs, map);
 	}
 
+	//how we choose what the room will be, if there are more than 5 neighbors that walls,
+//	or 0 neighbors that are walls, the room will become a wall if it is not already. if not, 
+//	it stays the same. 
 	private Room newRoom(Room base, Room[] neighbors) {
 		if (base.getAbbv().equals("SA")) {
 			return base;
@@ -89,14 +97,17 @@ public class Map {
 		}
 	}
 
-	public Map(char[][] map) {
-
+	//constructor for creating a map from an already made one. 
+	public Map(Room[][] map) {
+		this.map = map; 
 	}
 
+	//loads the map from the binary created in saveMap()
 	public void LoadMap() {
 
 	}
-
+	
+	//saves the map class binary to a file for later use. 
 	public void saveMap() {
 		try {
 			System.out.println(getClass());
@@ -115,14 +126,17 @@ public class Map {
 		}
 	}
 
+	//gets a room at a certain location 
 	public Room getRoom(Location loc) {
 		return map[loc.getX()][loc.getY()];
 	}
-
+	
+	//sets a room at a specific location
 	public void setRoom(Location loc, Room rm) {
 		map[loc.getX()][loc.getY()] = rm;
 	}
 
+	//returns the map in a 2d array. 
 	public Room[][] getMap() {
 		return map;
 	}
