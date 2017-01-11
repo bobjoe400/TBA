@@ -11,9 +11,6 @@ import world.Area;
 import world.Map;
 import world.Room;
 
-
-
-
 public class Game {
 
 	public static List<Item> itemList;
