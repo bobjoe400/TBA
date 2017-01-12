@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import interfaces.Item;
 import main.Game;
+import world.Area;
 import world.Room;
 
 public class typeCheck {
@@ -35,6 +36,24 @@ public class typeCheck {
 		for (Room rm : Game.roomList) {
 			if (s.equalsIgnoreCase(rm.getName())) {
 				return rm;
+			}
+		}
+		System.out.println();
+		return null;
+	}
+	
+	public synchronized static Area checkArea(String s) {
+		if(Game.areaList == null){
+			for (Area a: testing.test.meme) {
+				if(s.equalsIgnoreCase(a.getType())){
+					return a;
+				}
+			}
+			return null;
+		}
+		for (Area a: Game.areaList) {
+			if(s.equalsIgnoreCase(a.getType())){
+				return a;
 			}
 		}
 		System.out.println();

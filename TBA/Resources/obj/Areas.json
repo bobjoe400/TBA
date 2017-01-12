@@ -1,37 +1,17 @@
-{
-	"Areas": {
-		"0001": {
-			"properties": {
-				"type": "Dungeon",
-				"desc": "Starting Dungeon",
-				"rooms": [
-					"Prison Cell",
-					"Hallway",
-					"Dungeon Exit"
-				]
-			}
+[
+		{	
+			"type": "Dungeon",
+			"name": "First Dungeon",
+			"desc": "Starting Dungeon"
 		},
-		"0002": {
-			"properties": {
-				"type": "Field",
-				"desc": "A grass field",
-				"rooms": [
-					"Grass field",
-					"Hut",
-					"Dungeon Entrance",
-					"Dungeon Exit"
-				]
-			}
+		{
+			"type": "Field",
+			"name": "Green Field",
+			"desc": "A grass field"
 		},
-		"0003": {
-			"properties": {
-				"type": "Dungeon",
-				"desc": "Mysterious dungeon",
-				"rooms": [
-					"Dungeon Entrance",
-					"Dungeon Exit"
-				]
-			}
+		{
+			"type": "Dungeon",
+			"name": "Common Dungeon",
+			"desc": "Mysterious dungeon"
 		}
-	}
-}
+]
