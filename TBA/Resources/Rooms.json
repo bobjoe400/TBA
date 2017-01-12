@@ -1,0 +1,59 @@
+[
+	{
+		"id": "0001",
+		"properties": {
+			"loc": [
+				"Dungeon"
+			],
+			"name": "Prison Cell",
+			"abbrev": "PC",
+			"desc": "A damp dark room"
+		}
+	},
+	{
+		"id": "0002",
+		"properties": {
+			"loc": [
+				"Dungeon"
+			],
+			"name": "Hallway",
+			"abbrev": "HW",
+			"desc": "A long hallway"
+		}
+	},
+	{
+		"id": "0003",
+		"properties": {
+			"loc": [
+				"Field"
+			],
+			"name": "Hut",
+			"abbrev": "HT",
+			"desc": "A field hut"
+		}
+	},
+	{
+		"id": "0004",
+		"properties": {
+			"loc": [
+				"Field",
+				"Dungeon"
+			],
+			"name": "Dungeon Entrance",
+			"abbrev": "DN",
+			"desc": "The entrace to a dungeon"
+		}
+	},
+	{
+		"id": "0005",
+		"properties": {
+			"loc": [
+				"Field",
+				"Dungeon"
+			],
+			"name": "Dungeon Exit",
+			"abbrev": "DX",
+			"desc": "The exit to a dungeon"
+		}
+	}
+]
