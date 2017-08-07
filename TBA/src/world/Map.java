@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.PrintWriter;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Random;
 
 import util.Generate;
@@ -26,12 +28,12 @@ public class Map {
 		for (int i = 0; i < 48; i++) {
 			for (int j = 0; j < 48; j++) {
 				if (i == 23 && j == 23) {
-					Room temp = new Room("Prison Cell", "SA", "A damp dark room.");
+					Room temp = new Room("Prison Cell", "SA", "A damp dark room.", new ArrayList<String>(Arrays.asList("Dungeon")));
 					map[i][j] = temp;
 				} else {
 					Random rand = new Random();
 					Room temp;
-					if(rand.nextInt(100) < 25){temp = new Room("Wall", "##", "It's a wall");
+					if(rand.nextInt(100) < 25){temp = new Room("Wall", "##", "It's a wall", new ArrayList<String>());
 					}else{
 						temp = Generate.room();
 					}
@@ -91,7 +93,7 @@ public class Map {
 			}
 		}
 		if(total >= 5 || total == 0){
-			return new Room("Wall","##","It's a wall");
+			return new Room("Wall","##","It's a wall", new ArrayList<String>());
 		}else{
 			return base;
 		}
